@@ -95,6 +95,19 @@ app.patch('/api/v1/tasks/:taskId', async (req, res) => {
         console.log(result);
         res.json(result);
     } catch (error) {
-        console.log(error.message);
+        res.send(500).json({ message: 'Server error' })
+    }
+})
+
+app.delete('/api/v1/tasks/:taskId', async (req, res) => {
+    try {
+        const id = req.params.taskId;
+        const filter = {
+            _id: new ObjectId(id)
+        };
+        const result = await taskCollection.deleteOne(filter);
+        res.json(result);
+    } catch (error) {
+        res.send(500).json({ message: 'Server error' })
     }
 })
